@@ -1,6 +1,5 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import qs from 'qs';
 
 function generateServiceJWT(
   hsdpIamUrl: string,
@@ -30,7 +29,7 @@ export type LoginServiceParams = {
   scope: string;
 };
 
-export async function loginWithUserAccount(
+export async function loginWithServiceAccount(
   hsdpIamUrl: string,
   serviceId: string,
   privateKey: string,
@@ -42,17 +41,17 @@ export async function loginWithUserAccount(
     privateKey,
     params?.expiresIn || 5 * 60,
   );
-  const body = qs.stringify({
+  const searchParams = new URLSearchParams({
     grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
     assertion: jwtToken,
     ...(params?.scope ? { scope: params.scope } : {}),
   });
+
   const response = await axios.post<LoginServiceResponse>(
     `${hsdpIamUrl}/authorize/oauth2/token`,
-    body,
+    searchParams.toString(),
     {
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
         Accept: 'application/json',
         'Api-version': '2',
       },
