@@ -4,6 +4,7 @@ import { createGroupsClient } from './groups';
 import { createOrganizationsClient } from './organizations';
 import { createRolesClient } from './roles';
 import { createSecurityClient } from './security';
+import { createUsersClient } from './users';
 
 export function createIdmClient(options: ClientOptions) {
   return {
@@ -11,5 +12,6 @@ export function createIdmClient(options: ClientOptions) {
     roles: wrapWithErrorHandling(createRolesClient(options)),
     organizations: wrapWithErrorHandling(createOrganizationsClient(options)),
     security: wrapWithErrorHandling(createSecurityClient(options)),
+    users: wrapWithErrorHandling(createUsersClient(options)),
   };
 }
