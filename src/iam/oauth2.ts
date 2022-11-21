@@ -59,3 +59,56 @@ export async function loginWithServiceAccount(
   );
   return response.data;
 }
+
+export declare type IntrospectResponse = {
+  active: boolean;
+  scope: string;
+  username: string;
+  exp: number;
+  sub: string;
+  iss: string;
+  organizations: {
+    managingOrganization: string;
+    organizationList: Array<{
+      organizationId: string;
+      permissions: string[];
+      organizationName: string;
+      groups: string[];
+      roles: string[];
+    }>;
+  };
+  client_id: string;
+  token_type: string;
+  identity_type: string;
+};
+
+interface IntrospectParams {
+  clientId: string;
+  clientSecret: string;
+  accessToken: string;
+}
+
+export async function introspect(hsdpIamUrl: string, params: IntrospectParams) {
+  const searchParams = new URLSearchParams({
+    token: params.accessToken,
+  });
+
+  return axios
+    .post<IntrospectResponse>(
+      `${hsdpIamUrl}/authorize/oauth2/introspect`,
+      searchParams.toString(),
+      {
+        headers: {
+          Accept: 'application/json',
+          'Api-version': '4',
+          ...encodeCredentials(params.clientId, params.clientSecret),
+        },
+      },
+    )
+    .then((r) => r.data);
+}
+
+function encodeCredentials(clientId: string, clientSecret: string) {
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`, 'utf8').toString('base64');
+  return { Authorization: `Basic ${credentials}` };
+}
