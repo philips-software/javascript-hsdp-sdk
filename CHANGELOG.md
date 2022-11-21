@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.0...v1.0.1) (2022-11-21)
+
+
+### Bug Fixes
+
+* package name and updating package.json ([b40d46f](https://github.com/philips-software/javascript-hsdp-sdk/commit/b40d46fe1ec3391c462d5640b93378c69a61ac93))
+
 # 1.0.0 (2022-11-21)
 
 
