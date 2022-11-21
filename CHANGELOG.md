@@ -1,3 +1,17 @@
+# 1.0.0 (2022-11-21)
+
+
+### Bug Fixes
+
+* rename misnamed login function ([1fc3ee9](https://github.com/philips-software/javascript-hsdp-sdk/commit/1fc3ee9e8f111f739824fd4afc9a9ab37efac7f2))
+
+
+### Features
+
+* add IDM searchUsers call ([304ab18](https://github.com/philips-software/javascript-hsdp-sdk/commit/304ab18f248a09854681d331f2b01ff647f0c6d1))
+* add introspect call to IAM ([ff2e04a](https://github.com/philips-software/javascript-hsdp-sdk/commit/ff2e04acf0fc15baee20522c49a7d75a35965fd0))
+* implement semantic release ([216ea36](https://github.com/philips-software/javascript-hsdp-sdk/commit/216ea368791d4a7d09475e6ec24a7c83bc0898dd))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
