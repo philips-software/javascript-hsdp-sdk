@@ -1,0 +1,23 @@
+name: Remove
+on:
+  push:
+    branches:
+      - remove-wrong-package 
+jobs:
+  remove:
+    name: Remove
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: Remove
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: npm unpublish javascript-hsdp-sdk -f 
+
