@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
+      - name: force
+        run: npm config set force false
       - name: Remove
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
