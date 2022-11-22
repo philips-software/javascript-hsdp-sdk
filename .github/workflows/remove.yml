@@ -19,5 +19,5 @@ jobs:
       - name: Remove
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: npm unpublish javascript-hsdp-sdk -f 
+        run: npm unpublish javascript-hsdp-sdk --force
 
