@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.3...v1.0.4) (2022-12-05)
+
+
+### Bug Fixes
+
+* export IDM organization types ([d933408](https://github.com/philips-software/javascript-hsdp-sdk/commit/d933408ab6b63827e890c5320d6e7fb57806b4bb))
+
 ## [1.0.3](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.2...v1.0.3) (2022-12-05)
 
 
