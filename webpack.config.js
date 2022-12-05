@@ -1,11 +1,12 @@
-import path from 'path';
-import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
+const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
   entry: './src/index.ts',
   output: {
+    globalObject: 'this',
     filename: 'index.js',
     path: path.resolve('./dist'),
     library: 'JavascriptHsdp Sdk',
@@ -26,15 +27,11 @@ const config = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-  externals: {
-    react: 'react',
-    'react-dom': 'react-dom',
+    extensions: ['.ts', '.js'],
   },
 };
 
-export default () => {
+module.exports = () => {
   if (isProduction) {
     config.mode = 'production';
   } else {
