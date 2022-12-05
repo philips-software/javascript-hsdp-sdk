@@ -7,6 +7,8 @@ import { createSecurityClient } from './security';
 import { createUsersClient } from './users';
 
 export { IamPermission } from './iam-permissions';
+export { Organization as IDMOrganization } from './organizations';
+export * from './organization-filters';
 
 export function createIdmClient(options: ClientOptions) {
   return {
