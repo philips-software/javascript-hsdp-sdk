@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.4...v1.0.5) (2022-12-05)
+
+
+### Bug Fixes
+
+* make UMD build available on both browsers and Node.js ([25fece4](https://github.com/philips-software/javascript-hsdp-sdk/commit/25fece4a46301a9eb770dd3803df828cf1aa5864))
+
 ## [1.0.4](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.3...v1.0.4) (2022-12-05)
 
 
