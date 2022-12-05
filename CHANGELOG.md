@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.2...v1.0.3) (2022-12-05)
+
+
+### Bug Fixes
+
+* export utils ([0eb8682](https://github.com/philips-software/javascript-hsdp-sdk/commit/0eb868228a98dee1f0b40917035420f189da753c))
+
 ## [1.0.2](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.1...v1.0.2) (2022-12-05)
 
 
