@@ -6,6 +6,8 @@ import { createPatientsClient } from './patients';
 import { R4ResourceType, SUPPORTED_R4_RESOURCE_TYPES } from './resource-types';
 import { createResourceClient } from './resources';
 
+export { extractResources } from './resource-types';
+
 function uncapitalize(s: string) {
   return s[0].toLowerCase() + s.slice(1);
 }

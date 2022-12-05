@@ -6,6 +6,8 @@ import { createRolesClient } from './roles';
 import { createSecurityClient } from './security';
 import { createUsersClient } from './users';
 
+export { IamPermission } from './iam-permissions';
+
 export function createIdmClient(options: ClientOptions) {
   return {
     groups: wrapWithErrorHandling(createGroupsClient(options)),
