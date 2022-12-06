@@ -29,6 +29,9 @@ const config = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
+  externals: {
+    axios: "axios",
+  },
 };
 
 module.exports = () => {
