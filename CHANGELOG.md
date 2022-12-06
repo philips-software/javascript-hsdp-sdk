@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.5...v1.0.6) (2022-12-06)
+
+
+### Bug Fixes
+
+* externalize axios ([6f2fbb7](https://github.com/philips-software/javascript-hsdp-sdk/commit/6f2fbb77bac6a3968bf86bcdc1420f098ea6dc5e))
+
 ## [1.0.5](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.4...v1.0.5) (2022-12-05)
 
 
