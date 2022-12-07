@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { AuthParams, ClientOptions } from './common';
 import { R4ResourceType, ResourceByType, R4Bundle } from './resource-types';
-import url from 'url';
 import fhir4, { Reference } from 'fhir/r4';
 
 type ResourceValueParams<T> = AuthParams & {
@@ -82,7 +81,7 @@ export function createResourceClient<ResourceType extends R4ResourceType>(
     async search<IncludedResourceTypes extends R4ResourceType>(
       params: ResourceSearchParams<ResourceWithId, IncludedResourceTypes>,
     ) {
-      const encodedParams = new url.URLSearchParams(params.query);
+      const encodedParams = new URLSearchParams(params.query);
 
       if (params.includes) {
         Object.entries(params.includes).forEach(([refProp, refType]) =>

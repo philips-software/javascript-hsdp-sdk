@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -29,9 +31,8 @@ const config = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
-  externals: {
-    axios: "axios",
-  },
+  externalsPresets: { node: true },
+  externals: [nodeExternals()],
 };
 
 module.exports = () => {

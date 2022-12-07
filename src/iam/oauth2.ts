@@ -1,19 +1,34 @@
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
+import { KJUR } from 'jsrsasign';
 
-function generateServiceJWT(
+async function generateServiceJWT(
   hsdpIamUrl: string,
   serviceId: string,
   privateKey: string,
   expiresInSeconds: number,
 ) {
+  const header = {
+    typ: 'JWT',
+    alg: 'RS256',
+  };
   const payload = {
     aud: [`${hsdpIamUrl}/oauth2/access_token`],
     iss: serviceId,
     sub: serviceId,
-    mth: 'POST',
+    exp: Math.round(new Date().getTime() / 1000) + expiresInSeconds,
   };
-  return jwt.sign(payload, privateKey, { expiresIn: expiresInSeconds, algorithm: 'RS256' });
+
+  try {
+    const singleLinePrivateKey = privateKey.replace(/(?:\\r\\n|\\r|\\n)/g, '');
+    return KJUR.jws.JWS.sign(
+      header.alg,
+      JSON.stringify(header),
+      JSON.stringify(payload),
+      singleLinePrivateKey,
+    );
+  } catch (e) {
+    throw new Error(`JWT Signing failed: ${(e as Error).message}`);
+  }
 }
 
 export type LoginServiceResponse = {
@@ -35,7 +50,7 @@ export async function loginWithServiceAccount(
   privateKey: string,
   params?: Partial<LoginServiceParams>,
 ) {
-  const jwtToken = generateServiceJWT(
+  const jwtToken = await generateServiceJWT(
     hsdpIamUrl,
     serviceId,
     privateKey,
