@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.6...v1.0.7) (2022-12-07)
+
+
+### Bug Fixes
+
+* make all dependencies external, so they're not packed in the dist and replace jsonwebtoken library with jsrsasign so that it's also compatible with browsers ([54f911b](https://github.com/philips-software/javascript-hsdp-sdk/commit/54f911b867acaa1f3d01d69417f15d5c8d056adb))
+
 ## [1.0.6](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.5...v1.0.6) (2022-12-06)
 
 
