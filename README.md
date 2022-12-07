@@ -11,16 +11,14 @@ The SDK can be used in any JavaScript project via any package manager.
 
 ## Installation
 
-_TODO: determine package name_
-
 ```sh
-yarn add <package_name>
+yarn add hsdp-sdk
 ```
 
 or
 
 ```sh
-npm install --save <package_name>
+npm install --save hsdp-sdk
 ```
 
 ## Usage
