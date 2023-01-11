@@ -7,12 +7,14 @@ export const parsedZDate = z.preprocess((arg) => {
 export const scimResource = z.object({
   schemas: z.array(z.string()),
   id: z.string(),
-  meta: z.object({
-    resourceType: z.string(),
-    created: parsedZDate,
-    lastModified: parsedZDate,
-    version: z.string(),
-  }),
+  meta: z
+    .object({
+      resourceType: z.string().optional(),
+      created: parsedZDate,
+      lastModified: parsedZDate,
+      version: z.string(),
+    })
+    .optional(),
 });
 
 export type ScimResource = z.infer<typeof scimResource>;
