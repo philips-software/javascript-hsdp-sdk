@@ -135,8 +135,6 @@ export function createScimGroupsClient(options: ClientOptions) {
         },
       });
 
-      console.log(response.data);
-
       const responseData = scimGroupResponse.parse(response.data);
       const members =
         responseData[
