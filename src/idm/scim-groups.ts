@@ -3,6 +3,9 @@ import { AuthParams, ClientOptions } from './common';
 import { z } from 'zod';
 import { scimResource, scimReference, scimListResponse } from './scim';
 
+const GROUP_EXT_URN = 'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group';
+const USER_EXT_URN = 'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:User';
+
 const scimUser = scimResource.merge(
   z.object({
     userName: z.string(),
@@ -33,7 +36,7 @@ const scimUser = scimResource.merge(
         }),
       )
       .optional(),
-    'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:User': z
+    [USER_EXT_URN]: z
       .object({
         organization: scimReference.optional(),
         emailVerified: z.boolean().optional(),
@@ -71,7 +74,7 @@ const scimGroup = z.object({
 const scimGroupResponse = scimResource.merge(
   z.object({
     displayName: z.string().optional(),
-    'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group': scimGroup,
+    [GROUP_EXT_URN]: scimGroup,
   }),
 );
 
@@ -151,9 +154,7 @@ export function createScimGroupsClient(options: ClientOptions) {
 
       const responseData = scimGroupResponse.parse(response.data);
       const members =
-        responseData[
-          'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group'
-        ].groupMembers?.Resources.map(
+        responseData[GROUP_EXT_URN].groupMembers?.Resources.map(
           (
             r: ResponseTypeObject<Params['includeGroupMembersType']>,
           ): MemberTypeObject<Params['includeGroupMembersType']> => {
@@ -189,11 +190,8 @@ export function createScimGroupsClient(options: ClientOptions) {
         ) || [];
       return {
         id: responseData.id,
-        description:
-          responseData['urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group'].description,
-        managingOrganization:
-          responseData['urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group'].organization
-            .value,
+        description: responseData[GROUP_EXT_URN].description,
+        managingOrganization: responseData[GROUP_EXT_URN].organization.value,
         members,
       };
     },
