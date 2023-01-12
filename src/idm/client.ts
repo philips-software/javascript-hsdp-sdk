@@ -5,6 +5,7 @@ import { createOrganizationsClient } from './organizations';
 import { createRolesClient } from './roles';
 import { createSecurityClient } from './security';
 import { createUsersClient } from './users';
+import { createScimGroupsClient } from './scim-groups';
 
 export { IamPermission } from './iam-permissions';
 export { Organization as IDMOrganization } from './organizations';
@@ -17,5 +18,6 @@ export function createIdmClient(options: ClientOptions) {
     organizations: wrapWithErrorHandling(createOrganizationsClient(options)),
     security: wrapWithErrorHandling(createSecurityClient(options)),
     users: wrapWithErrorHandling(createUsersClient(options)),
+    scimGroups: wrapWithErrorHandling(createScimGroupsClient(options)),
   };
 }
