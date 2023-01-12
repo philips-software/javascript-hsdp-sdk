@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.7...v1.1.0) (2023-01-12)
+
+
+### Features
+
+* Add client for new SCIM Groups endpoint ([94eb5ae](https://github.com/philips-software/javascript-hsdp-sdk/commit/94eb5ae2d10d899e89bb8d1ccb2d571e61abfaff))
+
 ## [1.0.7](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.6...v1.0.7) (2022-12-07)
 
 
