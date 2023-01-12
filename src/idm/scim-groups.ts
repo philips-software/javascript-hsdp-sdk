@@ -3,10 +3,6 @@ import { AuthParams, ClientOptions } from './common';
 import { z } from 'zod';
 import { scimResource, scimReference, scimListResponse } from './scim';
 
-const USER_SCHEMA = 'urn:ietf:params:scim:schemas:core:2.0:User';
-const DEVICE_SCHEMA = 'urn:ietf:params:scim:schemas:core:philips:hsdp:2.0:Device';
-const SERVICE_SCHEMA = 'urn:ietf:params:scim:schemas:core:philips:hsdp:2.0:Service';
-
 const scimUser = scimResource.merge(
   z.object({
     userName: z.string(),
@@ -106,16 +102,32 @@ export type ServiceInGroup = {
 
 export type Member = UserInGroup | DeviceInGroup | ServiceInGroup;
 
-export type Group = {
+type MemberType = 'USER' | 'DEVICE' | 'SERVICE';
+type MemberTypeObject<T> = T extends 'USER'
+  ? UserInGroup
+  : T extends 'DEVICE'
+  ? DeviceInGroup
+  : T extends 'SERVICE'
+  ? ServiceInGroup
+  : never;
+type ResponseTypeObject<T> = T extends 'USER'
+  ? ScimUser
+  : T extends 'DEVICE'
+  ? ScimDevice
+  : T extends 'SERVICE'
+  ? ScimService
+  : never;
+
+export type Group<T> = {
   id: string;
   description?: string;
   managingOrganization: string;
-  members: Member[];
+  members: MemberTypeObject<T>[];
 };
 
 type GroupByIdParams = AuthParams & {
   id: string;
-  includeGroupMembersType?: 'USER' | 'DEVICE' | 'SERVICE';
+  includeGroupMembersType?: MemberType;
   groupMembersStartIndex?: number;
   groupMembersCount?: number;
   attributes?: string;
@@ -126,7 +138,9 @@ export function createScimGroupsClient(options: ClientOptions) {
   const axiosInstance = axios.create({ baseURL: options.idmUrl + '/authorize/scim/v2/Groups' });
 
   const client = {
-    async getGroupById(params: GroupByIdParams): Promise<Group> {
+    async getGroupById<Params extends GroupByIdParams>(
+      params: Params,
+    ): Promise<Group<Params['includeGroupMembersType']>> {
       const response = await axiosInstance.get<ScimGroupResponse>(`/${params.id}`, {
         params,
         headers: {
@@ -139,37 +153,40 @@ export function createScimGroupsClient(options: ClientOptions) {
       const members =
         responseData[
           'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group'
-        ].groupMembers?.Resources.map((r): Member => {
-          if (r.schemas.includes(USER_SCHEMA)) {
-            const user = r as ScimUser;
-            return {
-              active: user.active,
-              type: 'USER',
-              userId: user.id,
-              userName: user.userName,
-              name: user.name,
-              emails: user.emails.map((e) => e.value),
-            };
-          }
-          if (r.schemas.includes(DEVICE_SCHEMA)) {
-            const device = r as ScimDevice;
-            return {
-              active: device.active,
-              type: 'DEVICE',
-              loginId: device.loginId,
-            };
-          }
-          if (r.schemas.includes(SERVICE_SCHEMA)) {
-            const service = r as ScimService;
-            return {
-              active: service.active,
-              type: 'SERVICE',
-              serviceId: service.serviceId,
-              expiresOn: service.expiresOn,
-            };
-          }
-          throw Error(`Unsupported member type '${r.schemas.join(',')}'!`);
-        }) || [];
+        ].groupMembers?.Resources.map(
+          (
+            r: ResponseTypeObject<Params['includeGroupMembersType']>,
+          ): MemberTypeObject<Params['includeGroupMembersType']> => {
+            if (params.includeGroupMembersType === 'USER') {
+              const user = r as ScimUser;
+              return {
+                active: user.active,
+                type: 'USER',
+                userId: user.id,
+                userName: user.userName,
+                name: user.name,
+                emails: user.emails.map((e) => e.value),
+              } as MemberTypeObject<Params['includeGroupMembersType']>;
+            } else if (params.includeGroupMembersType === 'DEVICE') {
+              const device = r as ScimDevice;
+              return {
+                active: device.active,
+                type: 'DEVICE',
+                loginId: device.loginId,
+              } as MemberTypeObject<Params['includeGroupMembersType']>;
+            } else if (params.includeGroupMembersType === 'SERVICE') {
+              const service = r as ScimService;
+              return {
+                active: service.active,
+                type: 'SERVICE',
+                serviceId: service.serviceId,
+                expiresOn: service.expiresOn,
+              } as MemberTypeObject<Params['includeGroupMembersType']>;
+            } else {
+              throw Error(`Unsupported member type '${r.schemas.join(',')}'!`);
+            }
+          },
+        ) || [];
       return {
         id: responseData.id,
         description:
