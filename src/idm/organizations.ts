@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { z } from 'zod';
 import { AuthParams, ClientOptions } from './common';
-import { OrganizationFilter } from './organization-filters';
+import { OrganizationFilter } from './filters';
 import { scimListResponse, scimReference, scimResource } from './scim';
 import { omitKeys } from './utils';
 

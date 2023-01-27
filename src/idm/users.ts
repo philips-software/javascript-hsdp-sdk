@@ -74,6 +74,16 @@ type UserListResponse<T extends User[]> = {
   entry: T;
 };
 
+export type CreateUserParams = AuthParams & {
+  loginId: string;
+  name: User['name'];
+  password?: string;
+  email: string;
+  managingOrganization?: string;
+  preferredLanguage?: string;
+  preferredCommunicationChannel?: string;
+};
+
 type SearchUsersResponse<ProfileType extends SearchUsersParams['profileType']> = (User &
   (ProfileType extends 'membership'
     ? UserMembership
@@ -84,6 +94,37 @@ type SearchUsersResponse<ProfileType extends SearchUsersParams['profileType']> =
     : ProfileType extends 'consentedApps'
     ? UserConsentedApps
     : never))[];
+
+type OperationOutcome = {
+  resourceType?: string;
+  issue: {
+    severity: 'error' | 'warning' | 'information' | 'fatal';
+    code: string;
+    details: {
+      description?: string;
+      text?: string;
+      coding: {
+        system: string;
+        version: string;
+        code: string;
+        display: string;
+        userSelected: boolean;
+      };
+      diagnostics?: string;
+      location?: string[];
+    };
+  }[];
+};
+
+export type CreateUserResponse = {
+  created: boolean;
+  email: string;
+  id?: string;
+};
+
+type CreateUserResponseHeaders = {
+  location?: string;
+};
 
 export function createUsersClient(options: ClientOptions) {
   const axiosInstance = axios.create({ baseURL: options.idmUrl + '/authorize/identity/User' });
@@ -104,8 +145,39 @@ export function createUsersClient(options: ClientOptions) {
     return response.data.entry;
   }
 
+  async function createUser(params: CreateUserParams): Promise<CreateUserResponse> {
+    const apiParams = {
+      resourceType: 'Person',
+      loginId: params.loginId,
+      name: params.name,
+      telecom: [
+        {
+          system: 'email',
+          value: params.email,
+        },
+      ],
+      password: params.password,
+      managingOrganization: params.managingOrganization,
+      preferredLanguage: params.preferredLanguage,
+      preferredCommunicationChannel: params.preferredCommunicationChannel,
+    };
+    const response = await axiosInstance.post<OperationOutcome>('/', apiParams, {
+      headers: {
+        Authorization: `Bearer ${params.accessToken}`,
+        'API-Version': 4,
+      },
+    });
+    const headers = response.headers as CreateUserResponseHeaders;
+    return {
+      created: headers.location !== undefined,
+      email: params.email,
+      id: headers.location ? headers.location.split('/').at(-1) : undefined,
+    };
+  }
+
   const client = {
     searchUsers,
+    createUser,
   };
   return client;
 }

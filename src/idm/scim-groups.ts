@@ -2,50 +2,9 @@ import axios from 'axios';
 import { AuthParams, ClientOptions } from './common';
 import { z } from 'zod';
 import { scimResource, scimReference, scimListResponse } from './scim';
+import { ScimUser, scimUser } from './scim-users';
 
 const GROUP_EXT_URN = 'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:Group';
-const USER_EXT_URN = 'urn:ietf:params:scim:schemas:extension:philips:hsdp:2.0:User';
-
-const scimUser = scimResource.merge(
-  z.object({
-    userName: z.string(),
-    name: z.object({
-      fullName: z.string(),
-      familyName: z.string(),
-      givenName: z.string(),
-      middleName: z.string().optional(),
-      honorificPrefix: z.string().optional(),
-      honorificSuffix: z.string().optional(),
-    }),
-    preferredLanguage: z.string().optional(),
-    locale: z.string().optional(),
-    active: z.boolean(),
-    emails: z.array(
-      z.object({
-        type: z.enum(['work', 'home', 'other']).optional(),
-        primary: z.boolean().optional(),
-        value: z.string(),
-      }),
-    ),
-    phoneNumbers: z
-      .array(
-        z.object({
-          type: z.enum(['work', 'home', 'mobile', 'fax', 'other']).optional(),
-          primary: z.boolean().optional(),
-          value: z.string(),
-        }),
-      )
-      .optional(),
-    [USER_EXT_URN]: z
-      .object({
-        organization: scimReference.optional(),
-        emailVerified: z.boolean().optional(),
-        phoneVerified: z.boolean().optional(),
-      })
-      .optional(),
-  }),
-);
-
 const scimDevice = scimResource.merge(
   z.object({
     loginId: z.string(),
@@ -79,7 +38,6 @@ const scimGroupResponse = scimResource.merge(
 );
 
 type ScimGroupResponse = z.infer<typeof scimGroupResponse>;
-type ScimUser = z.infer<typeof scimUser>;
 type ScimDevice = z.infer<typeof scimDevice>;
 type ScimService = z.infer<typeof scimService>;
 
