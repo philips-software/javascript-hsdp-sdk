@@ -9,7 +9,7 @@ import {
   wrapWithErrorHandling,
 } from '../exceptions';
 import { createOrganizationsClient } from './organizations';
-import { FindOrganizationByParentIdFilter } from './organization-filters';
+import { FindOrganizationByParentIdFilter } from './filters';
 
 const IDM_URL = 'http://localhost';
 const ORGS_ENDPOINT = IDM_URL + '/authorize/scim/v2/Organizations';
