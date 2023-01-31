@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.1.0...v1.2.0) (2023-01-31)
+
+
+### Features
+
+* Add SCIM Users client and Create User function ([bbbe6f2](https://github.com/philips-software/javascript-hsdp-sdk/commit/bbbe6f27e49b5767333b11e3aa9e1592489c6b34))
+
 # [1.1.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.0.7...v1.1.0) (2023-01-12)
 
 
