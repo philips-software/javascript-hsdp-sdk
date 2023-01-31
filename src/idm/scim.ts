@@ -13,6 +13,7 @@ export const scimResource = z.object({
       created: parsedZDate,
       lastModified: parsedZDate,
       version: z.string(),
+      location: z.string().optional(),
     })
     .optional(),
 });
