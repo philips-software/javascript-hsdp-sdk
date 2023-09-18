@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.0...v1.4.1) (2023-09-18)
+
+
+### Bug Fixes
+
+* make ParamOptions optional for bundles ([d535211](https://github.com/philips-software/javascript-hsdp-sdk/commit/d535211f0f1177096f39dfd7202351aa8c6578e9))
+
 # [1.4.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.3.0...v1.4.0) (2023-09-18)
 
 
