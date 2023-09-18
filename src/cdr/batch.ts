@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { AuthParams, ClientOptions } from './common';
+import { AuthParams, ClientOptions, ParamOptions, getHeadersFromOptions } from './common';
 
 type BatchParams = AuthParams & {
   bundle: fhir4.Bundle;
+  options: ParamOptions;
 };
 
 export function createBatchClient(options: ClientOptions) {
@@ -12,6 +13,7 @@ export function createBatchClient(options: ClientOptions) {
     async create(params: BatchParams) {
       const response = await axiosInstance.post(`/`, params.bundle, {
         headers: {
+          ...getHeadersFromOptions(params.options),
           Authorization: `Bearer ${params.accessToken}`,
           'API-Version': 1,
           Accept: 'application/fhir+json;fhirVersion=4.0',

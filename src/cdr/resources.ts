@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthParams, ClientOptions, ParamOptions } from './common';
+import { AuthParams, ClientOptions, ParamOptions, getHeadersFromOptions } from './common';
 import { R4ResourceType, ResourceByType, R4Bundle } from './resource-types';
 import fhir4, { Reference } from 'fhir/r4';
 
@@ -27,14 +27,6 @@ type SearchBundle<
 > = R4ResourceType extends IncludedTypes
   ? R4Bundle<T>
   : R4Bundle<ResourceByType<T['resourceType'] | IncludedTypes> & { id: string }>;
-
-function getHeadersFromOptions(options: ParamOptions) {
-  const headers: Record<string, string> = {};
-  if (options?.validateResource !== undefined) {
-    headers['X-validate-resource'] = options.validateResource ? 'true' : 'false';
-  }
-  return headers;
-}
 
 export function createResourceClient<ResourceType extends R4ResourceType>(
   resource: ResourceType,
