@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.3.0...v1.4.0) (2023-09-18)
+
+
+### Features
+
+* implement x-validate-resource header for bundles ([a3c10da](https://github.com/philips-software/javascript-hsdp-sdk/commit/a3c10da1cc4fa4249cc8f161b231a0e1ffbf1ac2))
+
 # [1.3.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.2.0...v1.3.0) (2023-09-18)
 
 
