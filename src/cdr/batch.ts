@@ -3,7 +3,7 @@ import { AuthParams, ClientOptions, ParamOptions, getHeadersFromOptions } from '
 
 type BatchParams = AuthParams & {
   bundle: fhir4.Bundle;
-  options: ParamOptions;
+  options?: ParamOptions;
 };
 
 export function createBatchClient(options: ClientOptions) {
