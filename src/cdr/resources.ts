@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { AuthParams, ClientOptions } from './common';
+import { AuthParams, ClientOptions, ParamOptions } from './common';
 import { R4ResourceType, ResourceByType, R4Bundle } from './resource-types';
 import fhir4, { Reference } from 'fhir/r4';
 
 type ResourceValueParams<T> = AuthParams & {
   value: T;
+  options?: ParamOptions;
 };
 
 type ResourceIdParams = AuthParams & {
@@ -27,6 +28,14 @@ type SearchBundle<
   ? R4Bundle<T>
   : R4Bundle<ResourceByType<T['resourceType'] | IncludedTypes> & { id: string }>;
 
+function getHeadersFromOptions(options: ParamOptions) {
+  const headers: Record<string, string> = {};
+  if (options?.validateResource !== undefined) {
+    headers['X-validate-resource'] = options.validateResource ? 'true' : 'false';
+  }
+  return headers;
+}
+
 export function createResourceClient<ResourceType extends R4ResourceType>(
   resource: ResourceType,
   options: ClientOptions,
@@ -47,6 +56,7 @@ export function createResourceClient<ResourceType extends R4ResourceType>(
     async create(params: ResourceValueParams<Resource>) {
       const response = await axiosInstance.post<ResourceWithId>(`/${resource}`, params.value, {
         headers: {
+          ...getHeadersFromOptions(params.options),
           Authorization: `Bearer ${params.accessToken}`,
         },
       });
@@ -60,6 +70,7 @@ export function createResourceClient<ResourceType extends R4ResourceType>(
         params.value,
         {
           headers: {
+            ...getHeadersFromOptions(params.options),
             Authorization: `Bearer ${params.accessToken}`,
           },
         },

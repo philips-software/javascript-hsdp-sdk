@@ -111,6 +111,39 @@ describe('CDR Recources', () => {
       expect(scope.isDone());
       expect(result.id).toBeTruthy();
     });
+
+    it('ignores validate resource header by default', async () => {
+      const scope = nock(RESOURCE_ENDPOINT, {
+        badheaders: ['X-validate-resource'],
+      })
+        .post('', OBSERVATION_WITHOUT_ID)
+        .reply(200, { ...OBSERVATION_WITHOUT_ID, id: '123' });
+
+      await client.create({
+        accessToken: ACCESS_TOKEN,
+        value: OBSERVATION_WITHOUT_ID,
+      });
+
+      expect(scope.isDone());
+    });
+
+    it.each([true, false])('uses validate resource header when set to %b', async (b) => {
+      const scope = nock(RESOURCE_ENDPOINT, {
+        reqheaders: { 'X-validate-resource': b ? 'true' : 'false' },
+      })
+        .post('', OBSERVATION_WITHOUT_ID)
+        .reply(200, { ...OBSERVATION_WITHOUT_ID, id: '123' });
+
+      await client.create({
+        accessToken: ACCESS_TOKEN,
+        value: OBSERVATION_WITHOUT_ID,
+        options: {
+          validateResource: b,
+        },
+      });
+
+      expect(scope.isDone());
+    });
   });
 
   forEachStatusCode(

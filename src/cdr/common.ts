@@ -5,3 +5,7 @@ export type ClientOptions = {
 export type AuthParams = {
   accessToken: string;
 };
+
+export type ParamOptions = Partial<{
+  validateResource: boolean;
+}>;
