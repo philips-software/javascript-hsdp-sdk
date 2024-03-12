@@ -37,23 +37,26 @@ export const handleError = (e: unknown): never => {
  * @returns A new copy of the API client where each function has been wrapped with error handling
  */
 export function wrapWithErrorHandling<T extends Record<string, AsyncFunction>>(clientModule: T) {
-  return Object.entries(clientModule).reduce((wrappedFns, [name, clientFn]) => {
-    // Create new function that calls the wrapped API client function with its original arguments
-    const wrappedClientFn = async (...args: unknown[]) => {
-      try {
-        return await clientFn(...args);
-      } catch (e) {
-        if (e instanceof AxiosError && e.response) {
-          console.error(`${e.response.status}: ${JSON.stringify(e.response.data)}`);
-        } else {
-          console.error(e);
+  return Object.entries(clientModule).reduce(
+    (wrappedFns, [name, clientFn]) => {
+      // Create new function that calls the wrapped API client function with its original arguments
+      const wrappedClientFn = async (...args: unknown[]) => {
+        try {
+          return await clientFn(...args);
+        } catch (e) {
+          if (e instanceof AxiosError && e.response) {
+            console.error(`${e.response.status}: ${JSON.stringify(e.response.data)}`);
+          } else {
+            console.error(e);
+          }
+          throw handleError(e);
         }
-        throw handleError(e);
-      }
-    };
+      };
 
-    // use the wrapped version instead of the original
-    wrappedFns[name] = wrappedClientFn;
-    return wrappedFns;
-  }, {} as Record<string, AsyncFunction>) as T;
+      // use the wrapped version instead of the original
+      wrappedFns[name] = wrappedClientFn;
+      return wrappedFns;
+    },
+    {} as Record<string, AsyncFunction>,
+  ) as T;
 }
