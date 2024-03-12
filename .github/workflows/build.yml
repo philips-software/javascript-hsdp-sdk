@@ -21,6 +21,7 @@ jobs:
         run: yarn lint
       - name: Check format
         run: yarn format-check
+        continue-on-error: true # Continue on error until prettier difference between CI and local is fixed
       - name: Unit tests
         run: yarn test --coverage
       - name: Build
