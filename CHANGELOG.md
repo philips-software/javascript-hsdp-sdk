@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.1...v1.4.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* update dependencies ([d9fd1f5](https://github.com/philips-software/javascript-hsdp-sdk/commit/d9fd1f58c668b316014dc4a85f7fe8fcb33b4c9e))
+
 ## [1.4.1](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.0...v1.4.1) (2023-09-18)
 
 
