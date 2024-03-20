@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.5.0...v1.5.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* Remove unnecessary access tokens from IDM User calls ([fc09a8a](https://github.com/philips-software/javascript-hsdp-sdk/commit/fc09a8abeead254892fe2b573aced955a62289b1))
+
 # [1.5.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.2...v1.5.0) (2024-03-20)
 
 
