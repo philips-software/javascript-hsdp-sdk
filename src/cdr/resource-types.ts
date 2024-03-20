@@ -2,7 +2,7 @@ import { FhirResource, Bundle, BundleEntry } from 'fhir/r4';
 
 export type ResourceByType<Type extends R4ResourceType> = FhirResource & { resourceType: Type };
 
-export type R4ResourceType = typeof SUPPORTED_R4_RESOURCE_TYPES[number];
+export type R4ResourceType = (typeof SUPPORTED_R4_RESOURCE_TYPES)[number];
 
 export type R4Bundle<T> = Omit<Bundle, 'entry'> & {
   entry?: Omit<BundleEntry, 'resource'> & { resource: T }[];

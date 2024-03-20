@@ -5,3 +5,8 @@ export type AuthParams = {
 export type ClientOptions = {
   idmUrl: string;
 };
+
+export type HSDPRootOrgKeys = {
+  sharedKey: string;
+  secretKey: string;
+};

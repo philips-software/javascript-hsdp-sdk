@@ -147,7 +147,7 @@ describe('IDM Groups', () => {
             accessToken: ACCESS_TOKEN,
             organizationId: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -174,7 +174,7 @@ describe('IDM Groups', () => {
             name: 'Group 1',
             managingOrganization: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -198,7 +198,7 @@ describe('IDM Groups', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -223,7 +223,7 @@ describe('IDM Groups', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -249,7 +249,7 @@ describe('IDM Groups', () => {
             groupId: '1',
             userIds: ['1', '2'],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -274,7 +274,7 @@ describe('IDM Groups', () => {
             groupId: '1',
             userIds: ['1', '2'],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -300,7 +300,7 @@ describe('IDM Groups', () => {
             groupId: '1',
             roleIds: ['1', '2'],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -326,7 +326,7 @@ describe('IDM Groups', () => {
             groupId: '1',
             roleIds: ['1', '2'],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });

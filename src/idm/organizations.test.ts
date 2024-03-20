@@ -152,7 +152,7 @@ describe('HSDP IDM organizations', () => {
           client.searchOrganizations({
             accessToken: ACCESS_TOKEN,
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -187,7 +187,7 @@ describe('HSDP IDM organizations', () => {
             name: 'bla',
             parentId: '12345',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -212,7 +212,7 @@ describe('HSDP IDM organizations', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -236,7 +236,7 @@ describe('HSDP IDM organizations', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });

@@ -108,7 +108,7 @@ describe('Roles', () => {
           client.searchRoles({
             accessToken: ACCESS_TOKEN,
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -141,7 +141,7 @@ describe('Roles', () => {
             name: 'test',
             managingOrganization: 'some_org_id',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -165,7 +165,7 @@ describe('Roles', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -190,7 +190,7 @@ describe('Roles', () => {
             accessToken: ACCESS_TOKEN,
             id: '1',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -220,7 +220,7 @@ describe('Roles', () => {
             roleId: '1',
             permissions: [IamPermission.ACCOUNT_READ],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -250,7 +250,7 @@ describe('Roles', () => {
             roleId: '1',
             permissions: [IamPermission.ACCOUNT_READ],
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
