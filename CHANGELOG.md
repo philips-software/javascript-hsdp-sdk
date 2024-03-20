@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.2...v1.5.0) (2024-03-20)
+
+
+### Features
+
+* add IAM calls and IDM User calls ([f489317](https://github.com/philips-software/javascript-hsdp-sdk/commit/f48931727f8d0d83838665e3cbcd25803fd872be))
+
 ## [1.4.2](https://github.com/philips-software/javascript-hsdp-sdk/compare/v1.4.1...v1.4.2) (2024-03-12)
 
 
