@@ -23,3 +23,8 @@ export const generateHSDPApiSignature = (sharedKey: string, secretKey: string) =
     SignedDate: dateString,
   };
 };
+
+export function encodeCredentials(clientId: string, clientSecret: string) {
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`, 'utf8').toString('base64');
+  return { Authorization: `Basic ${credentials}` };
+}

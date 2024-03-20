@@ -100,7 +100,8 @@ describe('HSDP IDM users', () => {
     it('calls hsdp IDM', async () => {
       const scope = nock(USERS_ENDPOINT).post('/$reset-password').reply(202);
       await client.requestPasswordReset({
-        accessToken: ACCESS_TOKEN,
+        clientId: 'clientId',
+        clientSecret: 'clientSecret',
         loginId: '123@123.com',
       });
       expect(scope.isDone()).toBeTruthy();
@@ -112,7 +113,8 @@ describe('HSDP IDM users', () => {
         nock(USERS_ENDPOINT).post('/$reset-password').reply(statusCode);
         await expect(
           client.requestPasswordReset({
-            accessToken: ACCESS_TOKEN,
+            clientId: 'clientId',
+            clientSecret: 'clientSecret',
             loginId: '123@123.com',
           }),
         ).rejects.toThrow(expectedException);
@@ -124,7 +126,6 @@ describe('HSDP IDM users', () => {
     it('calls hsdp IDM', async () => {
       const scope = nock(USERS_ENDPOINT).post('/$set-password').reply(200);
       await client.setPassword({
-        accessToken: ACCESS_TOKEN,
         sharedKey: 'sharedKey',
         secretKey: 'secretKey',
         loginId: '123@123.com',
@@ -141,7 +142,6 @@ describe('HSDP IDM users', () => {
         nock(USERS_ENDPOINT).post('/$set-password').reply(statusCode);
         await expect(
           client.setPassword({
-            accessToken: ACCESS_TOKEN,
             sharedKey: 'sharedKey',
             secretKey: 'secretKey',
             loginId: '123@123.com',

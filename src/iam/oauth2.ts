@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { KJUR } from 'jsrsasign';
+import { encodeCredentials } from '../idm/utils';
 
 async function generateServiceJWT(
   hsdpIamUrl: string,
@@ -160,11 +161,6 @@ export async function introspect(hsdpIamUrl: string, params: IntrospectParams) {
   return response.data;
 }
 
-function encodeCredentials(clientId: string, clientSecret: string) {
-  const credentials = Buffer.from(`${clientId}:${clientSecret}`, 'utf8').toString('base64');
-  return { Authorization: `Basic ${credentials}` };
-}
-
 type RefreshAccessTokenParams = {
   clientId: string;
   clientSecret: string;
@@ -214,14 +210,14 @@ type AuthorizeCodeParams = {
   clientId: string;
   clientSecret: string;
   code: string;
-  redirect_uri: string;
+  redirectUri: string;
 };
 
 export async function authorizeCode(hsdpIamUrl: string, params: AuthorizeCodeParams) {
   const searchParams = new URLSearchParams({
     grant_type: 'authorization_code',
     code: params.code,
-    redirect_uri: params.redirect_uri,
+    redirect_uri: params.redirectUri,
   });
 
   const response = await axios.post<LoginUserResponse>(

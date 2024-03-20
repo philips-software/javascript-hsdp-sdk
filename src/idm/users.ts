@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AuthParams, ClientOptions, HSDPRootOrgKeys } from './common';
-import { generateHSDPApiSignature, omitKeys } from './utils';
+import { encodeCredentials, generateHSDPApiSignature, omitKeys } from './utils';
 
 type BaseSearchUsersParams = AuthParams & {
   userId: string;
@@ -84,17 +84,18 @@ export type CreateUserParams = AuthParams & {
   preferredCommunicationChannel?: string;
 };
 
-export type RequestPasswordResetParams = AuthParams & {
+export type RequestPasswordResetParams = {
   loginId: string;
+  clientId: string;
+  clientSecret: string;
 };
 
-export type SetPasswordParams = AuthParams &
-  HSDPRootOrgKeys & {
-    loginId: string;
-    confirmationCode: string;
-    newPassword: string;
-    context: 'userCreate' | 'recoverPassword';
-  };
+export type SetPasswordParams = HSDPRootOrgKeys & {
+  loginId: string;
+  confirmationCode: string;
+  newPassword: string;
+  context: 'userCreate' | 'recoverPassword';
+};
 
 type SearchUsersResponse<ProfileType extends SearchUsersParams['profileType']> = (User &
   (ProfileType extends 'membership'
@@ -195,7 +196,7 @@ export function createUsersClient(options: ClientOptions) {
       },
       {
         headers: {
-          Authorization: `Bearer ${params.accessToken}`,
+          ...encodeCredentials(params.clientId, params.clientSecret),
           'API-Version': 1,
         },
       },
@@ -221,7 +222,6 @@ export function createUsersClient(options: ClientOptions) {
       },
       {
         headers: {
-          Authorization: `Bearer ${params.accessToken}`,
           'API-Version': 3,
           ...generateHSDPApiSignature(params.sharedKey, params.secretKey),
         },

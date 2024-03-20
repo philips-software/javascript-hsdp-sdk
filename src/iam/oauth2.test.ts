@@ -156,7 +156,7 @@ describe('IAM OAuth2', () => {
         clientId: 'clientId',
         clientSecret: 'clientSecret',
         code: 'code',
-        redirect_uri: 'redirect_uri',
+        redirectUri: 'redirect_uri',
       });
       expect(scope.isDone()).toBeTruthy();
       expect(response.access_token).toEqual('token');
