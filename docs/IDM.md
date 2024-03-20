@@ -12,8 +12,8 @@ _Feel free to help implement more!_
 - [ ] Proposition
 - [x] Role and Permission
 - [ ] Service
-- [ ] User
-- [ ] SCIM User
+- [x] User
+- [x] SCIM User
 - [ ] Email Template
 - [ ] Password Policy
 - [ ] SMS Gateway

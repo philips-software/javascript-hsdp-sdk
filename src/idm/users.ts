@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { AuthParams, ClientOptions } from './common';
-import { omitKeys } from './utils';
+import { AuthParams, ClientOptions, HSDPRootOrgKeys } from './common';
+import { generateHSDPApiSignature, omitKeys } from './utils';
 
 type BaseSearchUsersParams = AuthParams & {
   userId: string;
@@ -84,16 +84,28 @@ export type CreateUserParams = AuthParams & {
   preferredCommunicationChannel?: string;
 };
 
+export type RequestPasswordResetParams = AuthParams & {
+  loginId: string;
+};
+
+export type SetPasswordParams = AuthParams &
+  HSDPRootOrgKeys & {
+    loginId: string;
+    confirmationCode: string;
+    newPassword: string;
+    context: 'userCreate' | 'recoverPassword';
+  };
+
 type SearchUsersResponse<ProfileType extends SearchUsersParams['profileType']> = (User &
   (ProfileType extends 'membership'
     ? UserMembership
     : ProfileType extends 'accountStatus'
-    ? UserAccountStatus
-    : ProfileType extends 'passwordStatus'
-    ? UserPasswordStatus
-    : ProfileType extends 'consentedApps'
-    ? UserConsentedApps
-    : never))[];
+      ? UserAccountStatus
+      : ProfileType extends 'passwordStatus'
+        ? UserPasswordStatus
+        : ProfileType extends 'consentedApps'
+          ? UserConsentedApps
+          : never))[];
 
 type OperationOutcome = {
   resourceType?: string;
@@ -175,9 +187,53 @@ export function createUsersClient(options: ClientOptions) {
     };
   }
 
+  async function requestPasswordReset(params: RequestPasswordResetParams) {
+    await axiosInstance.post(
+      '/$reset-password',
+      {
+        loginId: params.loginId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${params.accessToken}`,
+          'API-Version': 1,
+        },
+      },
+    );
+  }
+
+  async function setPassword(params: SetPasswordParams) {
+    await axiosInstance.post(
+      '/$set-password',
+      {
+        resourceType: 'Parameters',
+        parameter: [
+          {
+            name: 'setPassword',
+            resource: {
+              loginId: params.loginId,
+              confirmationCode: params.confirmationCode,
+              newPassword: params.newPassword,
+              context: params.context,
+            },
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${params.accessToken}`,
+          'API-Version': 3,
+          ...generateHSDPApiSignature(params.sharedKey, params.secretKey),
+        },
+      },
+    );
+  }
+
   const client = {
     searchUsers,
     createUser,
+    requestPasswordReset,
+    setPassword,
   };
   return client;
 }

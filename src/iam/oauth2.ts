@@ -75,6 +75,44 @@ export async function loginWithServiceAccount(
   return response.data;
 }
 
+interface LoginUserParams {
+  clientId: string;
+  clientSecret: string;
+  username: string;
+  password: string;
+  scope?: string;
+}
+
+export type LoginUserResponse = {
+  access_token: string;
+  refresh_token: string;
+  scope: string;
+  expires_in: number;
+  token_type: string;
+};
+
+export async function loginAsUser(hsdpIamUrl: string, params: LoginUserParams) {
+  const searchParams = new URLSearchParams({
+    grant_type: 'password',
+    username: params.username,
+    password: params.password,
+    ...(params.scope ? { scope: params.scope } : {}),
+  });
+
+  const response = await axios.post<LoginUserResponse>(
+    `${hsdpIamUrl}/authorize/oauth2/token`,
+    searchParams.toString(),
+    {
+      headers: {
+        Accept: 'application/json',
+        'Api-version': '2',
+        ...encodeCredentials(params.clientId, params.clientSecret),
+      },
+    },
+  );
+  return response.data;
+}
+
 export declare type IntrospectResponse = {
   active: boolean;
   scope: string;
@@ -108,22 +146,94 @@ export async function introspect(hsdpIamUrl: string, params: IntrospectParams) {
     token: params.accessToken,
   });
 
-  return axios
-    .post<IntrospectResponse>(
-      `${hsdpIamUrl}/authorize/oauth2/introspect`,
-      searchParams.toString(),
-      {
-        headers: {
-          Accept: 'application/json',
-          'Api-version': '4',
-          ...encodeCredentials(params.clientId, params.clientSecret),
-        },
+  const response = await axios.post<IntrospectResponse>(
+    `${hsdpIamUrl}/authorize/oauth2/introspect`,
+    searchParams.toString(),
+    {
+      headers: {
+        Accept: 'application/json',
+        'Api-version': '4',
+        ...encodeCredentials(params.clientId, params.clientSecret),
       },
-    )
-    .then((r) => r.data);
+    },
+  );
+  return response.data;
 }
 
 function encodeCredentials(clientId: string, clientSecret: string) {
   const credentials = Buffer.from(`${clientId}:${clientSecret}`, 'utf8').toString('base64');
   return { Authorization: `Basic ${credentials}` };
+}
+
+type RefreshAccessTokenParams = {
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+};
+
+export async function refreshAccessToken(hsdpIamUrl: string, params: RefreshAccessTokenParams) {
+  const searchParams = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: params.refreshToken,
+  });
+
+  const response = await axios.post<LoginUserResponse>(
+    `${hsdpIamUrl}/authorize/oauth2/token`,
+    searchParams.toString(),
+    {
+      headers: {
+        Accept: 'application/json',
+        'Api-version': '2',
+        ...encodeCredentials(params.clientId, params.clientSecret),
+      },
+    },
+  );
+  return response.data;
+}
+
+type LogoutParams = {
+  clientId: string;
+  clientSecret: string;
+  accessToken: string;
+};
+
+export async function logout(hsdpIamUrl: string, params: LogoutParams) {
+  const searchParams = new URLSearchParams({
+    token: params.accessToken,
+  });
+
+  await axios.post(`${hsdpIamUrl}/authorize/oauth2/revoke`, searchParams.toString(), {
+    headers: {
+      Accept: 'application/json',
+      'Api-version': '2',
+      ...encodeCredentials(params.clientId, params.clientSecret),
+    },
+  });
+}
+type AuthorizeCodeParams = {
+  clientId: string;
+  clientSecret: string;
+  code: string;
+  redirect_uri: string;
+};
+
+export async function authorizeCode(hsdpIamUrl: string, params: AuthorizeCodeParams) {
+  const searchParams = new URLSearchParams({
+    grant_type: 'authorization_code',
+    code: params.code,
+    redirect_uri: params.redirect_uri,
+  });
+
+  const response = await axios.post<LoginUserResponse>(
+    `${hsdpIamUrl}/authorize/oauth2/token`,
+    searchParams.toString(),
+    {
+      headers: {
+        Accept: 'application/json',
+        'Api-version': '2',
+        ...encodeCredentials(params.clientId, params.clientSecret),
+      },
+    },
+  );
+  return response.data;
 }

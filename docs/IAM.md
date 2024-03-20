@@ -6,11 +6,12 @@ _Feel free to help implement more!_
 
 - [ ] Federation
 - [ ] OAuth2
-  - [ ] Login as User
+  - [x] Login as User
   - [x] Login as Service
-  - [ ] Refresh Access Token
-  - [ ] Introspect
-  - [ ] Logout
+  - [x] Refresh Access Token
+  - [x] Introspect
+  - [x] Logout
+  - [x] Authorization code
 - [ ] Token
 
 ## Usage

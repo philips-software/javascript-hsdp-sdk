@@ -161,7 +161,7 @@ describe('CDR Recources', () => {
           accessToken: ACCESS_TOKEN,
           value: OBSERVATION_WITHOUT_ID,
         }),
-      ).rejects.toThrowError(expectedException);
+      ).rejects.toThrow(expectedException);
     },
   );
 
@@ -190,7 +190,7 @@ describe('CDR Recources', () => {
             accessToken: ACCESS_TOKEN,
             value: OBSERVATION,
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -220,7 +220,7 @@ describe('CDR Recources', () => {
             accessToken: ACCESS_TOKEN,
             id: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -249,7 +249,7 @@ describe('CDR Recources', () => {
             accessToken: ACCESS_TOKEN,
             id: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -284,7 +284,7 @@ describe('CDR Recources', () => {
               'managing-entity': `Organization/99`,
             },
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });

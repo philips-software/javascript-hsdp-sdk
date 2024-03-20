@@ -87,7 +87,7 @@ describe('CDR Organizations', () => {
           orgId: '1234',
           name: 'test',
         }),
-      ).rejects.toThrowError(expectedException);
+      ).rejects.toThrow(expectedException);
     },
   );
 
@@ -115,7 +115,7 @@ describe('CDR Organizations', () => {
             accessToken: ACCESS_TOKEN,
             orgId: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -144,7 +144,7 @@ describe('CDR Organizations', () => {
             accessToken: ACCESS_TOKEN,
             orgId: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });
@@ -173,7 +173,7 @@ describe('CDR Organizations', () => {
             accessToken: ACCESS_TOKEN,
             orgId: '1234',
           }),
-        ).rejects.toThrowError(expectedException);
+        ).rejects.toThrow(expectedException);
       },
     );
   });

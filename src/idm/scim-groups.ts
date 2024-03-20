@@ -67,17 +67,17 @@ type MemberType = 'USER' | 'DEVICE' | 'SERVICE';
 type MemberTypeObject<T> = T extends 'USER'
   ? UserInGroup
   : T extends 'DEVICE'
-  ? DeviceInGroup
-  : T extends 'SERVICE'
-  ? ServiceInGroup
-  : never;
+    ? DeviceInGroup
+    : T extends 'SERVICE'
+      ? ServiceInGroup
+      : never;
 type ResponseTypeObject<T> = T extends 'USER'
   ? ScimUser
   : T extends 'DEVICE'
-  ? ScimDevice
-  : T extends 'SERVICE'
-  ? ScimService
-  : never;
+    ? ScimDevice
+    : T extends 'SERVICE'
+      ? ScimService
+      : never;
 
 export type Group<T> = {
   id: string;
